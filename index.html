@@ -16,23 +16,33 @@
 </head>
   <body>
     <div id="containerVue">
-      <div class="">
-        <input type="text" v-model='input'>
-        <button type="button" name="button" @click='search' >click</button>
-      </div>
+      <header>
+        <div class="logo">
+          <!-- img logo -->
+        </div>
+        <div class="search">
+          <input type="text" v-model='input'>
+          <button class="btn" type="button" name="button" @click='search' >Cerca</button>
+        </div>
+      </header>
       <div id="contents">
         <div class="card" v-for='item in contents'>
           <h1 v-if='item.title'>{{item.title}}</h1>
           <h1 v-else>{{item.name}}</h1>
           <div v-if='item.poster_path'>
-            <img :src="'https://image.tmdb.org/t/p/original'+item.poster_path" alt="">
+            <img class="poster" :src="'https://image.tmdb.org/t/p/original'+item.poster_path" alt="">
           </div>
           <div v-else class="null">
-
           </div>
-          <p>{{item.overview}}</p>
-          <h3 v-if='item.original_title'>{{item.original_title}}</h3>
-          <h3 v-else>{{item.original_name}}</h3>
+          <div class="original">
+            <h2 v-if='item.original_title'>{{item.original_title}}</h2>
+            <h2 v-else>{{item.original_name}}</h2>
+            <div class="language">
+              <span>{{item.original_language}}</span>
+              <img class="flag":src="language(item.original_language)" alt="">
+            </div>
+          </div>
+          <p>{{overview(item)}}...</p>
         </div>
       </div>
     </div>

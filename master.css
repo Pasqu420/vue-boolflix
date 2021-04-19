@@ -1,29 +1,89 @@
+/* generali */
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-img{
-  width: 200px;
+body{
+  font-size: 12px;
+}
+h1{
+  font-size: 1.2rem;
+}
+h2{
+  font-size: 1rem;
+}
+h3{
+  font-size: 0.85rem;
+}
+.poster{
+  width: 170px;
   height: auto;
 }
+
 #containerVue{
   display: flex;
   flex-direction: column;
   width: 100vw;
   height: auto;
 }
+
+/* header */
+header{
+  width: 100%;
+  height: 75px;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header input{
+  width: 200px;
+  height: 50px;
+  border: none;
+  color: #ffff;
+  background-color: darkgrey;
+}
+.search{
+  margin-right: 50px;
+}
+.btn{
+  width: 75px;
+  height: 30px;
+}
+/* contenuti */
 #contents{
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  margin: auto;
 }
 .card{
-  width: 300px;
+  width: 250px;
   height: auto;
   margin: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .null{
-  width: 200px;
-  height: 300px;
+  width: 170px;
+  height: 230px;
   background-color: grey;
+}
+.original{
+  display: flex;
+  align-items: center;
+}
+.language{
+  margin-left: 10px;
+}
+.language span{
+  font: 0.9rem;
+}
+.flag{
+  width: 20px;
+  height: auto;
+  margin-left: 5px;
 }
