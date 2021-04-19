@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <!-- font awesame -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+  <!-- vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+  <!-- script -->
+  <script src="script.js"></script>
+  <!-- css -->
+  <link rel="stylesheet" href="master.css">
+  <title>BoolFlix</title>
+</head>
+  <body>
+    <div id="containerVue">
+      <div class="">
+        <input type="text" v-model='input'>
+        <button type="button" name="button" @click='search' >click</button>
+      </div>
+      <div id="contents">
+        <div class="card" v-for='item in contents'>
+          <h1 v-if='item.title'>{{item.title}}</h1>
+          <h1 v-else>{{item.name}}</h1>
+          <div v-if='item.poster_path'>
+            <img :src="'https://image.tmdb.org/t/p/original'+item.poster_path" alt="">
+          </div>
+          <div v-else class="null">
+
+          </div>
+          <p>{{item.overview}}</p>
+          <h3 v-if='item.original_title'>{{item.original_title}}</h3>
+          <h3 v-else>{{item.original_name}}</h3>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
