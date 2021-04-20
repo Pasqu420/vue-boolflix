@@ -16,7 +16,7 @@
 </head>
   <body>
     <div id="containerVue">
-      
+
       <header>
         <div class="logo">
           <h1 id="title">BOOLFLIX</h1>
@@ -65,11 +65,10 @@
                 <span v-else>{{item.original_language}}</span>
               </div>
 
-              <div v-if='item.vote_average'>
+              <div v-if='item.vote_average>=0'>
                 <span>VOTO:</span>
                 <i v-for='(satr,ind) in 5' class="fas fa-star"
-                  :class='vote(item.vote_average) > ind ? "gold":"empty"'
-                  v-if='item.vote_average'>
+                  :class='vote(item.vote_average) > ind ? "gold":"empty"'>
                 </i>
               </div>
 
