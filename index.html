@@ -16,43 +16,87 @@
 </head>
   <body>
     <div id="containerVue">
+      
       <header>
         <div class="logo">
-          <!-- img logo -->
+          <h1 id="title">BOOLFLIX</h1>
         </div>
         <div class="search">
           <input type="text" v-model='input'>
           <button class="btn" type="button" name="button" @click='search' >Cerca</button>
         </div>
       </header>
+
       <div id="contents">
-        <div class="card" v-for='item in contents'>
-          <h1 v-if='item.title'>{{item.title}}</h1>
-          <h1 v-else>{{item.name}}</h1>
-          <!-- <div v-if='item.poster_path'>
-            <img class="poster" :src="'https://image.tmdb.org/t/p/original'+item.poster_path" alt="">
-          </div> -->
-          <!-- <div v-else class="null">
-          </div> -->
-          <div class="original">
-            <h2 v-if='item.original_title'>{{item.original_title}}</h2>
-            <h2 v-else>{{item.original_name}}</h2>
-            <div class="language">
-              <img v-if='flag(item.original_language)' class="flag":src="language(item.original_language)" alt="">
-              <span v-else>{{item.original_language}}</span>
+
+        <div class="card" v-for='item in contents' v-on:mouseenter='myActive(item)' @mouseleave='myActive(item)'>
+
+          <div class="info">
+
+            <p v-if='item.title'>
+              <span class="bold">TITOLO:</span>
+              {{item.title}}
+            </p>
+
+            <p v-else>
+              <span class="bold">NOME:</span>
+              {{item.name}}
+            </p>
+
+            <p v-if='item.known_for_department'>
+              <span class="bold">RUOLO:</span>
+              {{item.known_for_department}}
+            </p>
+
+            <div class="original">
+              <p v-if='item.original_title'>
+                <span class="bold">TITOLO ORIGINALE:</span>
+                {{item.original_title}}
+              </p>
+
+              <p v-else-if='item.original_name'>
+                <span class="bold">NOME ORIGINALE:</span>
+                {{item.original_name}}
+              </p>
+
+              <div v-if='item.original_language' class="language">
+                <span class="bold">LINGUA:</span>
+                <img v-if='flag(item.original_language)' class="flag":src="language(item.original_language)" alt="">
+                <span v-else>{{item.original_language}}</span>
+              </div>
+
+              <div v-if='item.vote_average'>
+                <span>VOTO:</span>
+                <i v-for='(satr,ind) in 5' class="fas fa-star"
+                  :class='vote(item.vote_average) > ind ? "gold":"empty"'
+                  v-if='item.vote_average'>
+                </i>
+              </div>
+
             </div>
+
+            <p v-if='item.overview'>
+              <span class="bold">OVERVIEW:</span>
+              {{overview(item)}}...
+            </p>
+
           </div>
-          <p>{{overview(item)}}...</p>
-          <div>
-            <i v-for='(satr,ind) in 5' class="fas fa-star"
-              :class='vote(item.vote_average) > ind ? "gold":"empty"'>
-            </i>
-          </div>
-          <img class="poster" :src="'https://image.tmdb.org/t/p/original'+item.poster_path"
-            :class='item.active ? "overlay":"active"' v-on:mouseover='myActive(item)'
+
+          <img :src="'https://image.tmdb.org/t/p/original'+item.poster_path"
+            :class='(item.active)?"overlay":"active"' v-if='item.poster_path'
           >
+          <img :src="'https://image.tmdb.org/t/p/original'+item.profile_path"
+            v-else-if='item.profile_path'
+            :class='(item.active)?"overlay":"active"'
+          >
+          <img v-else src='img/not-found-image-15383864787lu.jpg'
+            :class='(item.active)?"overlay":"active"'
+          >
+
         </div>
+
       </div>
+
     </div>
   </body>
 </html>

@@ -19,7 +19,8 @@ function boolFlix() {
           // console.log(result);
           this.contents = result
           for (var i = 0; i < this.contents.length; i++) {
-            this.contents[i].active = true;
+            // this.contents[i].active = true;
+            this.$set(this.contents[i], 'active', true);
           }
           console.log(this.contents);
         });
@@ -39,16 +40,13 @@ function boolFlix() {
       overview: function (item){
         if (item.overview && item.overview.length > 130) {
           return item.overview.slice(0,130);
-        }else {
-          return item.overview;
         }
+        return item.overview;
       },
       vote:function (item) {
         return Math.ceil(item / 2);
       },
       myActive:function (item) {
-        console.log(item.active);
-        console.log(item);
         item.active = !item.active;
       }
     }
