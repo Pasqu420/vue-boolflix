@@ -29,20 +29,28 @@
         <div class="card" v-for='item in contents'>
           <h1 v-if='item.title'>{{item.title}}</h1>
           <h1 v-else>{{item.name}}</h1>
-          <div v-if='item.poster_path'>
+          <!-- <div v-if='item.poster_path'>
             <img class="poster" :src="'https://image.tmdb.org/t/p/original'+item.poster_path" alt="">
-          </div>
-          <div v-else class="null">
-          </div>
+          </div> -->
+          <!-- <div v-else class="null">
+          </div> -->
           <div class="original">
             <h2 v-if='item.original_title'>{{item.original_title}}</h2>
             <h2 v-else>{{item.original_name}}</h2>
             <div class="language">
-              <span>{{item.original_language}}</span>
-              <img class="flag":src="language(item.original_language)" alt="">
+              <img v-if='flag(item.original_language)' class="flag":src="language(item.original_language)" alt="">
+              <span v-else>{{item.original_language}}</span>
             </div>
           </div>
           <p>{{overview(item)}}...</p>
+          <div>
+            <i v-for='(satr,ind) in 5' class="fas fa-star"
+              :class='vote(item.vote_average) > ind ? "gold":"empty"'>
+            </i>
+          </div>
+          <img class="poster" :src="'https://image.tmdb.org/t/p/original'+item.poster_path"
+            :class='item.active ? "overlay":"active"' v-on:mouseover='myActive(item)'
+          >
         </div>
       </div>
     </div>

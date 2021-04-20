@@ -3,7 +3,7 @@ function boolFlix() {
     el:'#containerVue',
     data:{
       contents:[],
-      input:''
+      input:'',
     },
     methods:{
       search: function () {
@@ -18,6 +18,9 @@ function boolFlix() {
           const result = data.data.results;
           // console.log(result);
           this.contents = result
+          for (var i = 0; i < this.contents.length; i++) {
+            this.contents[i].active = true;
+          }
           console.log(this.contents);
         });
       },
@@ -30,12 +33,23 @@ function boolFlix() {
           return 'img/bandiera-Spain.svg';
         }
       },
+      flag:function (language) {
+        return language == 'it'||language == 'en'||language == 'es';
+      },
       overview: function (item){
         if (item.overview && item.overview.length > 130) {
           return item.overview.slice(0,130);
         }else {
           return item.overview;
         }
+      },
+      vote:function (item) {
+        return Math.ceil(item / 2);
+      },
+      myActive:function (item) {
+        console.log(item.active);
+        console.log(item);
+        item.active = !item.active;
       }
     }
   });
