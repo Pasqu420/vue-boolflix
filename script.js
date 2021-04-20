@@ -19,7 +19,6 @@ function boolFlix() {
           // console.log(result);
           this.contents = result
           for (var i = 0; i < this.contents.length; i++) {
-            // this.contents[i].active = true;
             this.$set(this.contents[i], 'active', true);
           }
           console.log(this.contents);

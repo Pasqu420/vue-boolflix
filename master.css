@@ -53,11 +53,12 @@ header input{
   margin: auto;
 }
 .card{
-  width: 230px;
-  height: 330px;
+  width: 300px;
+  height: 430px;
   margin: 20px 25px;
   background-color: black;
   color:#ffff;
+  border: 3px solid #ffff;
   position: relative;
 }
 .info{
@@ -67,10 +68,9 @@ header input{
   flex-direction: column;
   justify-content: center;
   padding: 10px;
-  border: 3px solid #ffff;
 }
 .info p{
-  font-size: 0.9rem;
+  font-size: 1rem;
   margin-top: 10px;
 }
 .bold{
