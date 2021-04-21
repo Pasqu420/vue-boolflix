@@ -2,19 +2,31 @@ function boolFlix() {
   new Vue({
     el:'#containerVue',
     data:{
-      movie:[],
+      movies:[],
       tv:[],
       input:'',
     },
     mounted(){  //top 20 film visualizzati di default
       axios.get('https://api.themoviedb.org/3/movie/popular?api_key=751a05be1460b8ba83b49cc31a439091')
-      .then(data => {
-        const result = data.data.results;
-        this.movie = result
-        for (var i = 0; i < this.movie.length; i++) {
-          this.$set(this.movie[i], 'active', true);
-          this.$set(this.movie[i], 'actors', []);
-          this.actorsMovie(this.movie[i]);
+      .then(movie => {
+        const topRes = movie.data.results;
+        this.movies = topRes;
+        for (var i = 0; i < this.movies.length; i++) {
+          this.$set(this.movies[i], 'active', true);
+          this.$set(this.movies[i], 'actors', []);
+          this.actorsMovie(this.movies[i]);
+        }
+      })
+      .catch(() => console.log('error'));
+      // top 20 serie visualizzate di default
+      axios.get('https://api.themoviedb.org/3/tv/popular?api_key=751a05be1460b8ba83b49cc31a439091')
+      .then(topTv => {
+        const topResTv = topTv.data.results;
+        this.tv = topResTv;
+        for (var i = 0; i < this.tv.length; i++) {
+          this.$set(this.tv[i], 'active', true);
+          this.$set(this.tv[i], 'actors', []);
+          this.actorsTv(this.tv[i]);
         }
       })
       .catch(() => console.log('error'));
@@ -31,46 +43,44 @@ function boolFlix() {
             'query': this.input
           }
         }
-        // API movie
+        // API movies
         axios.get('https://api.themoviedb.org/3/search/movie',params)
         .then(data => {
-          const result = data.data.results;
-          this.movie = result
-          for (var i = 0; i < this.movie.length; i++) {
-            this.$set(this.movie[i], 'active', true);
-            this.$set(this.movie[i], 'actors', []);
-            this.actorsMovie(this.movie[i]);
+          const resultMovie = data.data.results;
+          this.movies = resultMovie
+          for (var i = 0; i < this.movies.length; i++) {
+            this.$set(this.movies[i], 'active', true);
+            this.$set(this.movies[i], 'actors', []);
+            this.actorsMovie(this.movies[i]);
           }
-          // console.log(this.movie);
         })
         .catch(() => console.log('error'));
         // API tv show
         axios.get('https://api.themoviedb.org/3/search/tv',params)
         .then(data => {
-          const result = data.data.results;
-          this.tv = result
+          const resultTv = data.data.results;
+          this.tv = resultTv
           for (var i = 0; i < this.tv.length; i++) {
             this.$set(this.tv[i], 'active', true);
             this.$set(this.tv[i], 'actors', []);
             this.actorsTv(this.tv[i]);
           }
-          // console.log(this.tv)
         })
         .catch(() => console.log('error'));
       },
       actorsMovie:function(movie){  //API cast movie
-        const url = `https://api.themoviedb.org/3/movie/${movie.id}/credits`
+        const url = `https://api.themoviedb.org/3/movie/${movie.id}`
         axios.get(url,{
           params:{
             'api_key':'751a05be1460b8ba83b49cc31a439091',
+            'append_to_response': 'credits',
             'language': 'en-US'
           }
         })
         .then(actorMovie => {
-          const arrActorsMovie = actorMovie.data.cast;
+          const arrActorsMovie = actorMovie.data.credits.cast;
           const topFiveMovie = arrActorsMovie.splice(0,5);
           movie.actors=topFiveMovie;
-          // console.log(topFiveMovie);
         })
         .catch(() => console.log('error'));
       },
@@ -87,7 +97,6 @@ function boolFlix() {
           const arrActorsTv = actorTv.data.credits.cast;
           const topFiveTv = arrActorsTv.splice(0,5);
           tv.actors=topFiveTv;
-          // console.log(topFiveTv);
         })
         .catch(() => console.log('error'));
       },
