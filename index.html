@@ -36,30 +36,32 @@
               <span class="bold">TITOLO:</span>
               {{item.title}}
             </p>
-            <div class="original">
               <!-- titolo originale film -->
-              <p>
-                <span class="bold">TITOLO ORIGINALE:</span>
-                {{item.original_title}}
-              </p>
-              <!-- lingua originale -->
-              <div class="language">
-                <span class="bold">LINGUA:</span>
-                <img v-if='flag(item.original_language)' class="flag":src="language(item.original_language)" alt="">
-                <span v-else>{{item.original_language}}</span>
-              </div>
-              <!-- voto -->
-              <div v-if='item.vote_average>=0'>
-                <span>VOTO:</span>
-                <i v-for='(satr,ind) in 5' class="fas fa-star"
-                  :class='vote(item.vote_average) > ind ? "gold":"empty"'>
-                </i>
-              </div>
+            <p>
+              <span class="bold">TITOLO ORIGINALE:</span>
+              {{item.original_title}}
+            </p>
+            <!-- lingua originale -->
+            <div class="language">
+              <span class="bold">LINGUA:</span>
+              <img v-if='flag(item.original_language)' class="flag":src="language(item.original_language)" alt="">
+              <span v-else>{{item.original_language}}</span>
+            </div>
+            <!-- voto -->
+            <div v-if='item.vote_average>=0'>
+              <span>VOTO:</span>
+              <i v-for='(satr,ind) in 5' class="fas fa-star"
+                :class='vote(item.vote_average) > ind ? "gold":"empty"'>
+              </i>
             </div>
             <!-- overview -->
             <p v-if='item.overview'>
               <span class="bold">OVERVIEW:</span>
               {{overview(item)}}...
+            </p>
+            <h2>Actors:</h2>
+            <p v-for='actor in item.actors'>
+              {{actor.original_name}}
             </p>
           </div>
           <!-- copertina film -->
@@ -80,30 +82,32 @@
               <span class="bold">NOME:</span>
               {{serie.name}}
             </p>
-            <div class="original">
-              <!-- nome originale -->
-              <p>
-                <span class="bold">NOME ORIGINALE:</span>
-                {{serie.original_name}}
-              </p>
-              <!-- lingua originale -->
-              <div class="language">
-                <span class="bold">LINGUA:</span>
-                <img v-if='flag(serie.original_language)' class="flag":src="language(serie.original_language)" alt="">
-                <span v-else>{{serie.original_language}}</span>
-              </div>
-              <!-- voto -->
-              <div v-if='serie.vote_average>=0'>
-                <span>VOTO:</span>
-                <i v-for='(satr,ind) in 5' class="fas fa-star"
-                  :class='vote(serie.vote_average) > ind ? "gold":"empty"'>
-                </i>
-              </div>
+            <!-- nome originale -->
+            <p>
+              <span class="bold">NOME ORIGINALE:</span>
+              {{serie.original_name}}
+            </p>
+            <!-- lingua originale -->
+            <div class="language">
+              <span class="bold">LINGUA:</span>
+              <img v-if='flag(serie.original_language)' class="flag":src="language(serie.original_language)" alt="">
+              <span v-else>{{serie.original_language}}</span>
+            </div>
+            <!-- voto -->
+            <div v-if='serie.vote_average>=0'>
+              <span>VOTO:</span>
+              <i v-for='(satr,ind) in 5' class="fas fa-star"
+                :class='vote(serie.vote_average) > ind ? "gold":"empty"'>
+              </i>
             </div>
             <!-- overview -->
             <p v-if='serie.overview'>
               <span class="bold">OVERVIEW:</span>
               {{overview(serie)}}...
+            </p>
+            <h2 v-if='serie.actors > 0'>Actors:</h2>
+            <p v-for='actorTv in serie.actors' v-if='serie.actors > 0'>
+              {{actorTv.name}}
             </p>
             <!-- copertina serie -->
             <img :src="'https://image.tmdb.org/t/p/original'+serie.poster_path"

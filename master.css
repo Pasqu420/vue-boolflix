@@ -15,7 +15,9 @@ body{
   width: 100vw;
   height: auto;
 }
-
+h2{
+  padding-top: 10px;
+}
 /* header */
 header{
   width: 100%;
@@ -74,9 +76,9 @@ header input{
   justify-content: center;
   padding: 10px;
 }
-.info p{
+.info *{
   font-size: 1rem;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .bold{
   font-size: 0.8rem;

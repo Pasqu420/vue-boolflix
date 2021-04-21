@@ -4,7 +4,7 @@ function boolFlix() {
     data:{
       movie:[],
       tv:[],
-      input:'',
+      input:'a',
     },
     methods:{
       search: function () {
@@ -26,6 +26,8 @@ function boolFlix() {
           this.movie = result
           for (var i = 0; i < this.movie.length; i++) {
             this.$set(this.movie[i], 'active', true);
+            this.$set(this.movie[i], 'actors', []);
+            this.actorsMovie(this.movie[i]);
           }
           // console.log(this.movie);
         });
@@ -36,9 +38,41 @@ function boolFlix() {
           this.tv = result
           for (var i = 0; i < this.tv.length; i++) {
             this.$set(this.tv[i], 'active', true);
+            this.$set(this.tv[i], 'actors', []);
+            this.actorsTv(this.tv[i]);
           }
-          // console.log(this.tv);
+          console.log(this.tv);
         });
+
+      },
+      actorsMovie:function(movie){
+        const url = `https://api.themoviedb.org/3/movie/${movie.id}/credits`
+        axios.get(url,{
+          params:{
+            'api_key':'751a05be1460b8ba83b49cc31a439091',
+            'language': 'en-US'
+          }
+        })
+        .then(actorMovie => {
+          const arrActorsMovie = actorMovie.data.cast;
+          const topFiveMovie = arrActorsMovie.splice(0,5);
+          movie.actors=topFiveMovie;
+        });
+      },
+      actorsTv:function (tv) {
+        const url = `https://api.themoviedb.org/3/person/${tv.id}/tv_credits`
+        axios.get(url,{
+          params:{
+            'api_key':'751a05be1460b8ba83b49cc31a439091',
+            'language': 'en-US'
+          }
+        })
+        .then(actorTv => {
+          const arrActorsTv = actorTv.data.cast;
+          const topFiveTv = arrActorsTv.splice(0,5);
+          tv.actors=topFiveTv;
+        })
+        .catch(() => console.log('error'));
       },
       language: function (item) {
         if (item == 'en') {
