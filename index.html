@@ -22,76 +22,98 @@
           <h1 id="title">BOOLFLIX</h1>
         </div>
         <div class="search">
-          <input type="text" v-model='input'>
-          <button class="btn" type="button" name="button" @click='search' >Cerca</button>
+          <input type="text" v-model='input' placeholder="Search...">
+          <button class="btn" type="button" name="button" @click='search' > <strong>Search</strong> </button>
         </div>
       </header>
 
       <div id="contents">
-
-        <div class="card" v-for='item in contents' v-on:mouseenter='myActive(item)' @mouseleave='myActive(item)'>
-
+        <!-- card film -->
+        <div class="card" v-for='item in movie' v-on:mouseenter='myActive(item)' @mouseleave='myActive(item)'>
           <div class="info">
-
-            <p v-if='item.title'>
+            <!-- titolo film -->
+            <p>
               <span class="bold">TITOLO:</span>
               {{item.title}}
             </p>
-
-            <p v-else>
-              <span class="bold">NOME:</span>
-              {{item.name}}
-            </p>
-
-            <p v-if='item.known_for_department'>
-              <span class="bold">RUOLO:</span>
-              {{item.known_for_department}}
-            </p>
-
             <div class="original">
-              <p v-if='item.original_title'>
+              <!-- titolo originale film -->
+              <p>
                 <span class="bold">TITOLO ORIGINALE:</span>
                 {{item.original_title}}
               </p>
-
-              <p v-else-if='item.original_name'>
-                <span class="bold">NOME ORIGINALE:</span>
-                {{item.original_name}}
-              </p>
-
-              <div v-if='item.original_language' class="language">
+              <!-- lingua originale -->
+              <div class="language">
                 <span class="bold">LINGUA:</span>
                 <img v-if='flag(item.original_language)' class="flag":src="language(item.original_language)" alt="">
                 <span v-else>{{item.original_language}}</span>
               </div>
-
+              <!-- voto -->
               <div v-if='item.vote_average>=0'>
                 <span>VOTO:</span>
                 <i v-for='(satr,ind) in 5' class="fas fa-star"
                   :class='vote(item.vote_average) > ind ? "gold":"empty"'>
                 </i>
               </div>
-
             </div>
-
+            <!-- overview -->
             <p v-if='item.overview'>
               <span class="bold">OVERVIEW:</span>
               {{overview(item)}}...
             </p>
-
           </div>
-
+          <!-- copertina film -->
           <img :src="'https://image.tmdb.org/t/p/original'+item.poster_path"
             :class='(item.active)?"overlay":"active"' v-if='item.poster_path'
           >
-          <img :src="'https://image.tmdb.org/t/p/original'+item.profile_path"
-            v-else-if='item.profile_path'
-            :class='(item.active)?"overlay":"active"'
-          >
+          <!-- immagine non disponibile -->
           <img v-else src='img/not-found-image-15383864787lu.jpg'
             :class='(item.active)?"overlay":"active"'
           >
+        </div>
 
+        <!-- card serie tv -->
+        <div class="card" v-for='serie in tv' v-on:mouseenter='myActive(serie)' @mouseleave='myActive(serie)'>
+          <div class="info">
+            <!-- titolo serie -->
+            <p>
+              <span class="bold">NOME:</span>
+              {{serie.name}}
+            </p>
+            <div class="original">
+              <!-- nome originale -->
+              <p>
+                <span class="bold">NOME ORIGINALE:</span>
+                {{serie.original_name}}
+              </p>
+              <!-- lingua originale -->
+              <div class="language">
+                <span class="bold">LINGUA:</span>
+                <img v-if='flag(serie.original_language)' class="flag":src="language(serie.original_language)" alt="">
+                <span v-else>{{serie.original_language}}</span>
+              </div>
+              <!-- voto -->
+              <div v-if='serie.vote_average>=0'>
+                <span>VOTO:</span>
+                <i v-for='(satr,ind) in 5' class="fas fa-star"
+                  :class='vote(serie.vote_average) > ind ? "gold":"empty"'>
+                </i>
+              </div>
+            </div>
+            <!-- overview -->
+            <p v-if='serie.overview'>
+              <span class="bold">OVERVIEW:</span>
+              {{overview(serie)}}...
+            </p>
+            <!-- copertina serie -->
+            <img :src="'https://image.tmdb.org/t/p/original'+serie.poster_path"
+              :class='(serie.active)?"overlay":"active"' v-if='serie.poster_path'
+            >
+            <!-- immagine non disponibile -->
+            <img v-else src='img/not-found-image-15383864787lu.jpg'
+              :class='(serie.active)?"overlay":"active"'
+            >
+          </div>
         </div>
 
       </div>

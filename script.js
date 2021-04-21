@@ -2,26 +2,42 @@ function boolFlix() {
   new Vue({
     el:'#containerVue',
     data:{
-      contents:[],
+      movie:[],
+      tv:[],
       input:'',
     },
     methods:{
       search: function () {
-        axios.get('https://api.themoviedb.org/3/search/multi',{
-            params:{
-              'api_key':'751a05be1460b8ba83b49cc31a439091',
-              'query': this.input,
-              'include_image_language':'en,null'
-            }
-          })
+        if (!this.input) {
+          return;
+        }
+        const params = {
+          params:{
+            'api_key':'751a05be1460b8ba83b49cc31a439091',
+            'language': 'en-US',
+            'query': this.input,
+            'include_image_language':'en,null'
+          }
+        }
+        // API movie
+        axios.get('https://api.themoviedb.org/3/search/movie',params)
         .then(data => {
           const result = data.data.results;
-          // console.log(result);
-          this.contents = result
-          for (var i = 0; i < this.contents.length; i++) {
-            this.$set(this.contents[i], 'active', true);
+          this.movie = result
+          for (var i = 0; i < this.movie.length; i++) {
+            this.$set(this.movie[i], 'active', true);
           }
-          console.log(this.contents);
+          // console.log(this.movie);
+        });
+        // API tv show
+        axios.get('https://api.themoviedb.org/3/search/tv',params)
+        .then(data => {
+          const result = data.data.results;
+          this.tv = result
+          for (var i = 0; i < this.tv.length; i++) {
+            this.$set(this.tv[i], 'active', true);
+          }
+          // console.log(this.tv);
         });
       },
       language: function (item) {
