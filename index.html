@@ -22,7 +22,7 @@
           <h1 id="title">BOOLFLIX</h1>
         </div>
         <div class="search">
-          <input type="text" v-model='input' placeholder="Search...">
+          <input type="text" v-model='input' placeholder="Search..." @keyup.13='search'>
           <button class="btn" type="button" name="button" @click='search' > <strong>Search</strong> </button>
         </div>
       </header>
