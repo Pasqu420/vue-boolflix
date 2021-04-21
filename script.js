@@ -69,16 +69,15 @@ function boolFlix() {
         .catch(() => console.log('error'));
       },
       actorsMovie:function(movie){  //API cast movie
-        const url = `https://api.themoviedb.org/3/movie/${movie.id}`
+        const url = `https://api.themoviedb.org/3/movie/${movie.id}/credits`
         axios.get(url,{
           params:{
             'api_key':'751a05be1460b8ba83b49cc31a439091',
-            'append_to_response': 'credits',
             'language': 'en-US'
           }
         })
         .then(actorMovie => {
-          const arrActorsMovie = actorMovie.data.credits.cast;
+          const arrActorsMovie = actorMovie.data.cast;
           const topFiveMovie = arrActorsMovie.splice(0,5);
           movie.actors=topFiveMovie;
         })
