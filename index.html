@@ -105,8 +105,8 @@
               <span class="bold">OVERVIEW:</span>
               {{overview(serie)}}...
             </p>
-            <h2 v-if='serie.actors > 0'>Actors:</h2>
-            <p v-for='actorTv in serie.actors' v-if='serie.actors > 0'>
+            <h2>Actors:</h2>
+            <p v-for='actorTv in serie.actors' >
               {{actorTv.name}}
             </p>
             <!-- copertina serie -->

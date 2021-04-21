@@ -41,9 +41,8 @@ function boolFlix() {
             this.$set(this.tv[i], 'actors', []);
             this.actorsTv(this.tv[i]);
           }
-          console.log(this.tv);
+          // console.log(this.tv)
         });
-
       },
       actorsMovie:function(movie){
         const url = `https://api.themoviedb.org/3/movie/${movie.id}/credits`
@@ -57,20 +56,24 @@ function boolFlix() {
           const arrActorsMovie = actorMovie.data.cast;
           const topFiveMovie = arrActorsMovie.splice(0,5);
           movie.actors=topFiveMovie;
-        });
+          // console.log(topFiveMovie);
+        })
+        .catch(() => console.log('error'));
       },
       actorsTv:function (tv) {
-        const url = `https://api.themoviedb.org/3/person/${tv.id}/tv_credits`
+        const url = `https://api.themoviedb.org/3/tv/${tv.id}`
         axios.get(url,{
           params:{
             'api_key':'751a05be1460b8ba83b49cc31a439091',
+            'append_to_response': 'credits',
             'language': 'en-US'
           }
         })
         .then(actorTv => {
-          const arrActorsTv = actorTv.data.cast;
+          const arrActorsTv = actorTv.data.credits.cast;
           const topFiveTv = arrActorsTv.splice(0,5);
           tv.actors=topFiveTv;
+          // console.log(topFiveTv);
         })
         .catch(() => console.log('error'));
       },
