@@ -4,7 +4,20 @@ function boolFlix() {
     data:{
       movie:[],
       tv:[],
-      input:'a',
+      input:'',
+    },
+    mounted(){  //top 20 film visualizzati di default
+      axios.get('https://api.themoviedb.org/3/movie/popular?api_key=751a05be1460b8ba83b49cc31a439091')
+      .then(data => {
+        const result = data.data.results;
+        this.movie = result
+        for (var i = 0; i < this.movie.length; i++) {
+          this.$set(this.movie[i], 'active', true);
+          this.$set(this.movie[i], 'actors', []);
+          this.actorsMovie(this.movie[i]);
+        }
+      })
+      .catch(() => console.log('error'));
     },
     methods:{
       search: function () {
@@ -15,8 +28,7 @@ function boolFlix() {
           params:{
             'api_key':'751a05be1460b8ba83b49cc31a439091',
             'language': 'en-US',
-            'query': this.input,
-            'include_image_language':'en,null'
+            'query': this.input
           }
         }
         // API movie
@@ -30,7 +42,8 @@ function boolFlix() {
             this.actorsMovie(this.movie[i]);
           }
           // console.log(this.movie);
-        });
+        })
+        .catch(() => console.log('error'));
         // API tv show
         axios.get('https://api.themoviedb.org/3/search/tv',params)
         .then(data => {
@@ -42,9 +55,10 @@ function boolFlix() {
             this.actorsTv(this.tv[i]);
           }
           // console.log(this.tv)
-        });
+        })
+        .catch(() => console.log('error'));
       },
-      actorsMovie:function(movie){
+      actorsMovie:function(movie){  //API cast movie
         const url = `https://api.themoviedb.org/3/movie/${movie.id}/credits`
         axios.get(url,{
           params:{
@@ -60,7 +74,7 @@ function boolFlix() {
         })
         .catch(() => console.log('error'));
       },
-      actorsTv:function (tv) {
+      actorsTv:function (tv) {  //API cast tv show
         const url = `https://api.themoviedb.org/3/tv/${tv.id}`
         axios.get(url,{
           params:{
@@ -77,7 +91,7 @@ function boolFlix() {
         })
         .catch(() => console.log('error'));
       },
-      language: function (item) {
+      language: function (item) { //ritorn percorso img flag language
         if (item == 'en') {
           return 'img/Bandiera-Inglese.png';
         }else if (item == 'it') {
@@ -95,10 +109,10 @@ function boolFlix() {
         }
         return item.overview;
       },
-      vote:function (item) {
+      vote:function (item) {  //converto il voto in base 5
         return Math.ceil(item / 2);
       },
-      myActive:function (item) {
+      myActive:function (item) {  //effetto hover
         item.active = !item.active;
       }
     }
