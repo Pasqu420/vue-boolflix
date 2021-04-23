@@ -29,7 +29,7 @@
 
       <div id="contents">
         <!-- card film -->
-        <div class="card" v-for='item in movies' v-on:mouseenter='myActive(item)' @mouseleave='myActive(item)'>
+        <div class="card" v-for='item in movies' v-on:mouseenter='myActive(item),actorsMovie(item)' @mouseleave='myActive(item)'>
           <div class="info">
             <!-- titolo film -->
             <p>
@@ -44,7 +44,7 @@
             <!-- lingua originale -->
             <div class="language">
               <span class="bold">LINGUA:</span>
-              <img v-if='flag(item.original_language)' class="flag":src="language(item.original_language)" alt="">
+              <img v-if='flag(item.original_language)' class="flag" :src="'img/bandiera-'+item.original_language+'.png'" alt="">
               <span v-else>{{item.original_language}}</span>
             </div>
             <!-- voto -->
@@ -59,8 +59,8 @@
               <span class="bold">OVERVIEW:</span>
               {{overview(item)}}...
             </p>
-            <h2>Actors:</h2>
-            <p v-for='actor in item.actors'>
+            <h2 v-if='item.actors.length > 0'>Actors:</h2>
+            <p v-for='actor in item.actors' v-if='item.actors.length > 0'>
               {{actor.original_name}}
             </p>
           </div>
@@ -75,7 +75,7 @@
         </div>
 
         <!-- card serie tv -->
-        <div class="card" v-for='serie in tv' v-on:mouseenter='myActive(serie)' @mouseleave='myActive(serie)'>
+        <div class="card" v-for='serie in tv' v-on:mouseenter='myActive(serie),actorsTv(serie)' @mouseleave='myActive(serie)'>
           <div class="info">
             <!-- titolo serie -->
             <p>
@@ -90,7 +90,7 @@
             <!-- lingua originale -->
             <div class="language">
               <span class="bold">LINGUA:</span>
-              <img v-if='flag(serie.original_language)' class="flag":src="language(serie.original_language)" alt="">
+              <img v-if='flag(serie.original_language)' class="flag" :src="'img/bandiera-'+serie.original_language+'.png'" alt="">
               <span v-else>{{serie.original_language}}</span>
             </div>
             <!-- voto -->
@@ -105,8 +105,8 @@
               <span class="bold">OVERVIEW:</span>
               {{overview(serie)}}...
             </p>
-            <h2>Actors:</h2>
-            <p v-for='actorTv in serie.actors' >
+            <h2 v-if='serie.actors.length > 0'>Actors:</h2>
+            <p v-for='actorTv in serie.actors' v-if='serie.actors.length > 0'>
               {{actorTv.name}}
             </p>
             <!-- copertina serie -->

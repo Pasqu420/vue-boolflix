@@ -6,28 +6,18 @@ function boolFlix() {
       tv:[],
       input:'',
     },
-    mounted(){  //top 20 film visualizzati di default
+    mounted(){  //top 10 film visualizzati di default
       axios.get('https://api.themoviedb.org/3/movie/popular?api_key=751a05be1460b8ba83b49cc31a439091')
       .then(movie => {
-        const topRes = movie.data.results;
-        this.movies = topRes;
-        for (var i = 0; i < this.movies.length; i++) {
-          this.$set(this.movies[i], 'active', true);
-          this.$set(this.movies[i], 'actors', []);
-          this.actorsMovie(this.movies[i]);
-        }
+        this.movies =  movie.data.results.splice(0,10);
+        this.addKey(this.movies);
       })
       .catch(() => console.log('error'));
-      // top 20 serie visualizzate di default
+      // top 10 serie visualizzate di default
       axios.get('https://api.themoviedb.org/3/tv/popular?api_key=751a05be1460b8ba83b49cc31a439091')
       .then(topTv => {
-        const topResTv = topTv.data.results;
-        this.tv = topResTv;
-        for (var i = 0; i < this.tv.length; i++) {
-          this.$set(this.tv[i], 'active', true);
-          this.$set(this.tv[i], 'actors', []);
-          this.actorsTv(this.tv[i]);
-        }
+        this.tv = topTv.data.results.splice(0,10);
+        this.addKey(this.tv);
       })
       .catch(() => console.log('error'));
     },
@@ -47,26 +37,25 @@ function boolFlix() {
         axios.get('https://api.themoviedb.org/3/search/movie',params)
         .then(data => {
           const resultMovie = data.data.results;
-          this.movies = resultMovie
-          for (var i = 0; i < this.movies.length; i++) {
-            this.$set(this.movies[i], 'active', true);
-            this.$set(this.movies[i], 'actors', []);
-            this.actorsMovie(this.movies[i]);
-          }
+          this.movies = resultMovie;
+          this.addKey(this.movies);
         })
         .catch(() => console.log('error'));
+
         // API tv show
         axios.get('https://api.themoviedb.org/3/search/tv',params)
         .then(data => {
           const resultTv = data.data.results;
-          this.tv = resultTv
-          for (var i = 0; i < this.tv.length; i++) {
-            this.$set(this.tv[i], 'active', true);
-            this.$set(this.tv[i], 'actors', []);
-            this.actorsTv(this.tv[i]);
-          }
+          this.tv = resultTv;
+          this.addKey(this.tv);
         })
         .catch(() => console.log('error'));
+      },
+      addKey:function (item) {
+        for (var i = 0; i < item.length; i++) {
+          this.$set(item[i], 'active', true);
+          this.$set(item[i], 'actors', []);
+        }
       },
       actorsMovie:function(movie){  //API cast movie
         const url = `https://api.themoviedb.org/3/movie/${movie.id}/credits`
@@ -77,9 +66,7 @@ function boolFlix() {
           }
         })
         .then(actorMovie => {
-          const arrActorsMovie = actorMovie.data.cast;
-          const topFiveMovie = arrActorsMovie.splice(0,5);
-          movie.actors=topFiveMovie;
+          movie.actors=actorMovie.data.cast.splice(0,5);
         })
         .catch(() => console.log('error'));
       },
@@ -93,20 +80,9 @@ function boolFlix() {
           }
         })
         .then(actorTv => {
-          const arrActorsTv = actorTv.data.credits.cast;
-          const topFiveTv = arrActorsTv.splice(0,5);
-          tv.actors=topFiveTv;
+          tv.actors= actorTv.data.credits.cast.splice(0,5);
         })
         .catch(() => console.log('error'));
-      },
-      language: function (item) { //ritorn percorso img flag language
-        if (item == 'en') {
-          return 'img/Bandiera-Inglese.png';
-        }else if (item == 'it') {
-          return 'img/Bandiera-italiana.jpg';
-        }else if (item == 'es') {
-          return 'img/bandiera-Spain.svg';
-        }
       },
       flag:function (language) {
         return language == 'it'||language == 'en'||language == 'es';
